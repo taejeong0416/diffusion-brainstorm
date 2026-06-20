@@ -67,6 +67,49 @@ Show the work as a running structure, not just a final list:
 - After each prune, show a short "Cut / Reason / Survives" summary.
 - End with a short **"What the method produced"** note: list the noise→signal and rejection→revival events. If neither happened, say so honestly — it means the topic was narrow enough that the noise didn't pay off, and a flatter approach would have done as well.
 
+## Worked example
+
+Topic: **"Research directions for making LLM inference cheaper."** Noise level: high, depth: 3.
+
+### Layer 1 — scatter
+
+| # | Category | Kind |
+|---|---|---|
+| 1 | Model compression (quantization, distillation) | mainstream |
+| 2 | Decoding efficiency (speculative / parallel decoding) | mainstream |
+| 3 | Serving systems (batching, KV-cache management) | adjacent |
+| 4 | Retrieval to offload parametric memory | adjacent |
+| 5 | Hardware-aware kernels | adjacent |
+| 6 | **Logistics: tokens as a just-in-time supply chain** | `[noise]` |
+| 7 | **Biology: sleep-like memory consolidation** | `[noise]` |
+| 8 | **Finance: option pricing on future compute** | `[noise]` |
+
+**Prune L1** (quality × diversity):
+
+- Cut **#5 hardware kernels** — *reason: high quality but overlaps #3 serving; low diversity.*
+- Cut **#7 biology** — *reason: too metaphorical to measure* → propagate sideways: "consolidation" really means **caching frequently-recomputed results** → feeds #3.
+- **Keep #6 logistics `[noise]`** — measurable path: JIT = "compute only what's needed, when needed" → dynamic depth / early exit.
+- **Keep #8 finance `[noise]`** — path: value of continuing computation under uncertainty.
+- Survives: #1, #2, #3, #4, #6, #8.
+
+### Layer 2 — expand survivors (fresh noise + L1 hints)
+
+Expand #6 logistics → {early-exit per layer, token-level skipping, **`[noise]` "fast/slow dual-track" routing**}. Expand #8 finance → {adaptive compute budget, confidence-gated halting}.
+
+**Prune L2 — lateral propagation:**
+
+- Cut #8's "option pricing" framing — *reason: too abstract as-is.* But its core — *"the value of continuing"* — is exactly an early-exit halting signal → **sharpens #6 into: early-exit driven by a learned continuation-value head.** (rejection → revival)
+
+### Layer 3 — crystallize (cross-links)
+
+1. **Adaptive-depth decoding** = #6 (early exit) × #8 (value-of-continuing) × #2 (speculative decoding): a per-token head halts computation when expected quality gain < compute cost. *Branches combined: logistics + finance + decoding.*
+2. **Distill-plus-retrieve** = #1 × #4: a small distilled model handles the head distribution; retrieval covers the long tail.
+
+### What the method produced
+
+- **noise → signal:** the logistics `[noise]` and finance `[noise]` categories combined into proposal #1 — an angle a flat list rarely reaches.
+- **rejection → revival:** cutting finance's "option pricing" wording rescued proposal #1 by reframing it as a continuation-value head; cutting biology's "consolidation" fed a caching insight into the serving branch.
+
 ## Honest limitations (state these when relevant)
 
 - Diffusion's denoising follows a learned score function; brainstorming has no such objective ground truth, so the quality of "denoising" depends entirely on the evaluation criteria the user gives. This method is strongest when criteria are clear (constrained product/research/naming problems) and weakest in pure open creative work, where noise may just stay noise.
