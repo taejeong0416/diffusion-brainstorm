@@ -33,6 +33,12 @@ Copy the folder into your skills directory:
 cp -r diffusion-brainstorm ~/.claude/skills/
 ```
 
+On Windows (PowerShell):
+
+```powershell
+Copy-Item -Recurse diffusion-brainstorm $HOME\.claude\skills\
+```
+
 Then just ask naturally, e.g. *"brainstorm research topics on approaches to improving LLM performance"* — and optionally set the noise level (low / medium / high) and depth (3 layers / 4 layers research-grade).
 
 ## Limitations
