@@ -35,6 +35,7 @@ Run the layers below. Default depth is 3 layers; go deeper (Layer 4+) only if th
 - Score each on quality × diversity.
 - Cut the weak ones. For each cut, **write a one-line rejection reason.**
 - **Deliberately keep at least one `[noise]` candidate** if it shows any measurable path to becoming real. Converting noise → signal here is the key event of the method; call it out when it happens.
+- **If a prune wipes out everything (or leaves nothing but near-duplicates), don't proceed on a dead layer — re-scatter once.** Generate a fresh batch using the rejection reasons you just recorded as constraints (they tell you what *not* to repeat). High noise levels make total wipeouts more likely, so expect this occasionally.
 - Pass surviving rejection reasons forward as hints for the next layer.
 
 ### Layer 2 — Expand survivors into children (with fresh noise)
@@ -44,7 +45,7 @@ Run the layers below. Default depth is 3 layers; go deeper (Layer 4+) only if th
 
 ### Prune Layer 2
 
-- Same two-axis prune. Record rejection reasons.
+- Same two-axis prune. Record rejection reasons. (Same re-scatter rule applies: if a survivor's children all die, regenerate that branch's children once before moving on.)
 - **Lateral propagation:** when you cut a child, check whether its rejection reason should sharpen a *sibling* (e.g. "option-pricing is too far" → "but that's really about evaluating conditional future value → push the dual-process sibling that way"). Make these hand-offs explicit.
 
 ### Layer 3 — Crystallize
@@ -117,6 +118,6 @@ Expand #6 logistics → {early-exit per layer, token-level skipping, **`[noise]`
 
 ## Tuning knobs (let the user set these)
 
-- **Noise level**: low (adjacent domains only) / medium (one distant domain) / high (deliberately far-fetched transplants).
+- **Noise level**: low (adjacent domains only) / medium (one distant domain) / high (deliberately far-fetched transplants). Note that wider isn't always better: past a point, extra candidates mostly add near-duplicates and dilute the prune rather than surfacing new signal. Treat the 7–9 Layer-1 count as a ceiling, not a target — if a smaller spread already covers mainstream + a couple of distant domains, stop there.
 - **Domain focus**: research topics / product ideas / general.
 - **Depth**: 3 layers (default) / 4 layers (research-grade with prior-work check).
